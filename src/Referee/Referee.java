@@ -14,6 +14,14 @@ public class Referee {
     private int order;
     private boolean isGameOver;
     private Random random = new Random();
+    public static int MAX_DICE = 4;
+    public static int MAX_PLAYER = 4;
+
+    public Referee() {
+        for (int i = 0; i < MAX_DICE; i++){
+            lstDice.add(new Dice());
+        }
+    }
 
     public void addPlayer(Player player){
         lstPlayer.add(player);
@@ -25,10 +33,13 @@ public class Referee {
         }
     }
 
+    public void clearPlayer(){
+        VirtualPlayer.seqVPlayer = 0;
+        lstPlayer.clear();
+    }
+
     public void start(){
-        for (int i = 0; i < 4; i++){
-            lstDice.add(new Dice());
-        }
+        System.out.println("\nGame Start!");
         turn = 0;
         isGameOver = false;
         order = -1;
@@ -37,13 +48,14 @@ public class Referee {
         }
         System.out.println("Game Over !");
         gameOver();
+        System.out.println();
     }
 
     public void nextPlayer(){
         turn++;
         order++;
-        if (order == 4) order = 0;
-        int chooseDice = random.nextInt(4);
+        if (order == MAX_PLAYER) order = 0;
+        int chooseDice = random.nextInt(MAX_DICE);
         int resultDice = lstDice.get(chooseDice).roll(random);
         int curTotalPoint = lstPlayer.get(order).getCurrentPoint() + resultDice;
         if (curTotalPoint == 21){
@@ -60,12 +72,12 @@ public class Referee {
     public void gameOver(){
         System.out.println("\nDASHBOARD");
         System.out.println("----------------------------------------");
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < MAX_PLAYER; i++){
             System.out.println((i + 1) + ". " + lstPlayer.get(i).getName() + " - Total Point: " + lstPlayer.get(i).getCurrentPoint());
         }
         System.out.println("Winner: " + lstPlayer.get(order).getName());
         System.out.println("----------------------------------------");
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < MAX_PLAYER; i++){
             if (i == order) continue;
             if (lstPlayer.get(i) instanceof VirtualPlayer){
                 System.out.println(lstPlayer.get(i).getName() + ": " + ((VirtualPlayer) lstPlayer.get(i)).getFailMessage());
