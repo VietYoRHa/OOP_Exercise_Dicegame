@@ -5,10 +5,10 @@ import java.util.List;
 
 public class VirtualPlayer extends Player{
     private String failMessage;
-    private int seqVPlayer = 0;
+    private static int seqVPlayer = 0;
     private static List<String> lstFailMessage = Arrays.asList("Error 404: Success not found", "Mission: Failure", "Oops", "Nooooo");
 
-    public VirtualPlayer(String failMessage) {
+    public VirtualPlayer() {
         this.failMessage = lstFailMessage.get(seqVPlayer);
         seqVPlayer++;
         String vPlayerName = "VirtualPlayer" + seqVPlayer;
